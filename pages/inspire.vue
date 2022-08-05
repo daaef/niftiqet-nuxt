@@ -1,38 +1,35 @@
 <template>
   <section class="section">
-    <h2 class="title is-3 has-text-grey">
-      "Just start <b-icon icon="rocket" size="is-large" />"
-    </h2>
-    <h3 class="subtitle is-6 has-text-grey">
-      Author: <a href="https://github.com/anteriovieira"> Antério Vieira </a>
-    </h3>
-    <button @click="!isConnected ? wallet?.connect({requestSignIn: true}) : wallet?.disconnect()">{{ !isConnected ? 'Connect' : 'Disconnect' }}</button>
+    <div class="columns is-mobile">
+      <card title="Free" icon="github">
+        Open source on <a href="https://github.com/buefy/buefy"> GitHub </a>
+      </card>
+
+      <card title="Responsive" icon="cellphone-link">
+        <b class="has-text-grey"> Every </b> component is responsive
+      </card>
+
+      <card title="Modern" icon="alert-decagram">
+        Built with <a href="https://vuejs.org/"> Vue.js </a> and
+        <a href="http://bulma.io/"> Bulma </a>
+      </card>
+
+      <card title="Lightweight" icon="arrange-bring-to-front">
+        No other internal dependency {{ store }}
+      </card>
+    </div>
   </section>
 </template>
 
 <script>
 export default {
   name: 'InspirePage',
-  data() {
+  data () {
     return {
       wallet: null,
       isConnected: false,
       details: {}
     }
-  },
-  watch: {
-    wallet(n, o){
-      console.log('new', n.isConnected())
-      console.log('old', o)
-    },
-  },
-  mounted() {
-    this.$walletService.walletProvider({apiKey: this.$config.apiKey}).then(async (res) => {
-      await console.log('Response', res)
-      this.wallet = res.wallet
-      this.isConnected = res.isConnected
-      this.details = res.details
-    })
-  },
+  }
 }
 </script>

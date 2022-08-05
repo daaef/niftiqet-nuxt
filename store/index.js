@@ -1,34 +1,34 @@
-export const state = () => {
-  return {
+import { defineStore } from 'pinia'
+
+export const useStore = defineStore('main', {
+  state: () => ({
     wallet: undefined,
     details: {
       accountId: '',
       balance: '',
       allowance: '',
-      contractName: '',
+      contractName: ''
     },
     isConnected: false,
+    loading: false
+  }),
+  actions: {
+    setupWallet () {
+      this.loading = true
+      console.log('this', this)
+      this.$nuxt.$walletService.walletProvider({ apiKey: this.$nuxt.$config.apiKey })
+        .then(({ details, wallet, isConnected }) => {
+          this.wallet = wallet
+          this.isConnected = isConnected
+          if (isConnected) {
+            this.details = details
+          }
+          this.loading = false
+        })
+    },
+    async logout ({ commit, dispatch }) {
+      await this.wallet?.disconnect()
+      this.setupWallet()
+    }
   }
-}
-
-export const mutations = {
-  setWallet(state, payload) {
-    state.wallet =  payload
-  },
-  setDetails(state, payload) {
-    state.details = payload
-  },
-  setIsConnected(state, payload) {
-    state.isConnected = payload
-  }
-}
-
-export const actions = {
-
-}
-
-export const getters = {
-  nigerianStates(state) {
-    return state.nigerianStates
-  },
-}
+})

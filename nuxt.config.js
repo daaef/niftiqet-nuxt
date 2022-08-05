@@ -6,21 +6,28 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' },
+      { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap'
+      }
+    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: [
+    '~/assets/scss/style.scss'
+    // '~/assets/fonts/space-grotesk.css'
+  ],
   publicRuntimeConfig: {
     apiKey: process.env.PUBLIC_MINTBASEJS_API_KEY
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    { src: '~/plugins/services.plugin.js' },
-  ],
+  plugins: [{ src: '~/plugins/services.plugin.js' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -29,6 +36,16 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
+    '@nuxtjs/composition-api/module',
+    ['@pinia/nuxt', {
+      disableVuex: false,
+      autoImports: [
+        // automatically imports `usePinia()`
+        'defineStore',
+        // automatically imports `usePinia()` as `usePiniaStore()`
+        ['defineStore', 'definePiniaStore']
+      ]
+    }]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -37,13 +54,13 @@ export default {
     'nuxt-buefy',
     '@nuxtjs/apollo',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    '@nuxtjs/pwa'
   ],
   apollo: {
     // Sets up the apollo client endpoints
     clientConfigs: {
       // recommended: use a file to declare the client configuration (see below for example)
-      default: '~/plugins/apollo-config.js',
+      default: '~/plugins/apollo-config.js'
     },
 
     /**
@@ -54,8 +71,8 @@ export default {
       // For example: default query options
       $query: {
         loadingKey: 'loading',
-        fetchPolicy: 'cache-and-network',
-      },
+        fetchPolicy: 'cache-and-network'
+      }
     },
 
     // Sets the authentication type for any authorized request.
@@ -85,16 +102,16 @@ export default {
        * A Boolean indicating if the cookie transmission requires a
        * secure protocol (https). Defaults to false.
        */
-      secure: false,
-    },
+      secure: false
+    }
   },
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en',
-    },
+      lang: 'en'
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {}
 }

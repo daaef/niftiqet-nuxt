@@ -28,12 +28,12 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
+      required: true
     },
     icon: {
       type: String,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 }
 </script>
