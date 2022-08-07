@@ -22,10 +22,10 @@ export default {
   }
 }
 </script>
-<style lang='scss'>
-  header {
-    min-height: 100vh;
-    background: url("~/assets/img/bg.png") no-repeat fixed;
-    background-size: cover;
-  }
+<style lang="scss">
+header {
+  min-height: 100vh;
+  background: url('~/assets/img/bg.png') no-repeat fixed;
+  background-size: cover;
+}
 </style>

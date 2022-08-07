@@ -10,7 +10,9 @@ export class WalletService {
         apiKey
       })
 
-      if (error) { return 'no data' }
+      if (error) {
+        return 'no data'
+      }
       let details
       const { wallet, isConnected } = walletData
       if (isConnected) {
@@ -22,13 +24,17 @@ export class WalletService {
         }
       }
       return {
-        wallet, isConnected, details
+        wallet,
+        isConnected,
+        details
       }
     }
 
     const { wallet, details, isConnected } = await initWallet()
     return {
-      wallet, isConnected, details
+      wallet,
+      isConnected,
+      details
     }
   }
 }

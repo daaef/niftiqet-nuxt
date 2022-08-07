@@ -2,32 +2,49 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Niftiqet',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+    meta: [{
+      charset: 'utf-8'
+    },
+    {
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1'
+    },
+    {
+      hid: 'description',
+      name: 'description',
+      content: ''
+    },
+    {
+      name: 'format-detection',
+      content: 'telephone=no'
+    }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap'
-      }
+    link: [{
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap'
+    }
     ]
   },
-
+  target: 'static',
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/assets/scss/style.scss'
-    // '~/assets/fonts/space-grotesk.css'
+    '~/assets/scss/style.scss',
+    '~/assets/style.css',
+    '~/assets/cryptofont.min.css'
   ],
   publicRuntimeConfig: {
     apiKey: process.env.PUBLIC_MINTBASEJS_API_KEY
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/services.plugin.js' }],
+  plugins: [{
+    src: '~/plugins/services.plugin.js'
+  }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -37,15 +54,18 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     '@nuxtjs/composition-api/module',
-    ['@pinia/nuxt', {
-      disableVuex: false,
-      autoImports: [
-        // automatically imports `usePinia()`
-        'defineStore',
-        // automatically imports `usePinia()` as `usePiniaStore()`
-        ['defineStore', 'definePiniaStore']
-      ]
-    }]
+    [
+      '@pinia/nuxt',
+      {
+        disableVuex: false,
+        autoImports: [
+          // automatically imports `usePinia()`
+          'defineStore',
+          // automatically imports `usePinia()` as `usePiniaStore()`
+          ['defineStore', 'definePiniaStore']
+        ]
+      }
+    ]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -113,5 +133,8 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {},
+  router: {
+    linkActiveClass: 'is-active'
+  }
 }

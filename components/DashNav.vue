@@ -90,20 +90,40 @@
   <div>
     <b-navbar class="container" :transparent="true">
       <template #brand>
-        <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          NIFTIQET
+        <b-navbar-item tag="div">
+          &nbsp;
         </b-navbar-item>
       </template>
       <template #end>
         <b-navbar-item tag="div">
-          <b-navbar-item :to="{ path: '/' }">
+          <b-navbar-item tag="div">
+            <b-field>
+              <b-autocomplete
+                rounded
+                :data="['jQuery', 'Vue', 'React']"
+                placeholder="Search Item, Collection and Account.."
+                icon="magnify"
+                clearable
+                custom-class="search--input"
+                @select="option => selected = option"
+              >
+                <template #empty>
+                  No results found
+                </template>
+              </b-autocomplete>
+            </b-field>
+          </b-navbar-item>
+          <!--          <b-navbar-item :to="{ path: '/' }">
             About
           </b-navbar-item>
           <b-navbar-item href="#">
             Ticketing
-          </b-navbar-item>
-          <b-navbar-item href="#">
-            FAQs
+          </b-navbar-item>-->
+          <b-navbar-item tag="div">
+            <div class="user--mode" :class="{creator: creator}" @click="creator = !creator">
+              <span>Creator</span>
+              <span>Buyer</span>
+            </div>
           </b-navbar-item>
           <div class="navbar-item">
             <div class="field is-grouped">
@@ -172,24 +192,19 @@
 </template>
 
 <script>
-import { mapState } from 'pinia'
+import { mapWritableState } from 'pinia'
 import { useStore } from '@/store'
 
 export default {
-  name: 'NavBar',
+  name: 'DashNav',
   setup () {
     const store = useStore()
 
     return { store }
   },
-  data () {
-    return {
-      checking: 'home'
-    }
-  },
   computed: {
     // same as above but registers it as this.myOwnName
-    ...mapState(useStore, ['wallet', 'details', 'isConnected', 'loading'])
+    ...mapWritableState(useStore, ['wallet', 'details', 'isConnected', 'loading', 'creator'])
   },
   methods: {
     async disconnectWallet () {

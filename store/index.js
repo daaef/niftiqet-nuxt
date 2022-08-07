@@ -10,13 +10,15 @@ export const useStore = defineStore('main', {
       contractName: ''
     },
     isConnected: false,
-    loading: false
+    loading: false,
+    creator: false
   }),
   actions: {
     setupWallet () {
       this.loading = true
       console.log('this', this)
-      this.$nuxt.$walletService.walletProvider({ apiKey: this.$nuxt.$config.apiKey })
+      this.$nuxt.$walletService
+        .walletProvider({ apiKey: this.$nuxt.$config.apiKey })
         .then(({ details, wallet, isConnected }) => {
           this.wallet = wallet
           this.isConnected = isConnected
