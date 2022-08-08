@@ -9,6 +9,15 @@
   .navbar-item {
     color: #fafafa;
     font-weight: 700;
+    a {
+      &:hover {
+        background: linear-gradient(270deg, #F42A8B 1.42%, #67D2E1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+    }
     .search--input {
       background: #031C1E;
       border-radius: 35px;

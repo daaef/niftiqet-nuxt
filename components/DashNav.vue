@@ -164,16 +164,9 @@
                       icon-right="menu-down"
                     />
                   </template>
-                  <b-dropdown-item value="products" aria-role="menuitem">
-                    Products
-                  </b-dropdown-item>
-                  <b-dropdown-item value="blog" disabled aria-role="menuitem">
-                    Blog
-                  </b-dropdown-item>
-                  <hr class="dropdown-divider" aria-role="menuitem">
-                  <b-dropdown-item value="settings">
-                    Settings
-                  </b-dropdown-item>
+                  <!--                  <b-dropdown-item value="settings">
+                                      Settings
+                                    </b-dropdown-item>-->
                   <b-dropdown-item
                     value="logout"
                     aria-role="menuitem"

@@ -11,12 +11,11 @@ export const useStore = defineStore('main', {
     },
     isConnected: false,
     loading: false,
-    creator: false
+    creator: true
   }),
   actions: {
     setupWallet () {
       this.loading = true
-      console.log('this', this)
       this.$nuxt.$walletService
         .walletProvider({ apiKey: this.$nuxt.$config.apiKey })
         .then(({ details, wallet, isConnected }) => {

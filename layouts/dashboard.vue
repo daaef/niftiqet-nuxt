@@ -4,6 +4,9 @@
     <header>
       <DashNav />
       <Nuxt />
+      <footer>
+        &copy;{{ year }} NIFTIQET
+      </footer>
     </header>
   </div>
 </template>
@@ -20,6 +23,11 @@ export default {
 
     return {
       store
+    }
+  },
+  computed: {
+    year () {
+      return new Date().getFullYear()
     }
   },
   async mounted () {
@@ -66,6 +74,20 @@ export default {
             border-radius: 45px;
             transition: .3s ease-in-out;
           }
+          span {
+            cursor: pointer;
+            display: block;
+            position: relative;
+            padding: 5px;
+            font-weight: 400;
+            &:first-of-type {
+              padding-right: 10px;
+            }
+            &:last-of-type {
+              padding-left: 10px;
+              color: #67D2E1;
+            }
+          }
           &.creator {
             &:before {
               content: '';
@@ -78,22 +100,28 @@ export default {
               width: 50%;
               border-radius: 45px;
             }
-          }
-          span {
-            cursor: pointer;
-            display: block;
-            position: relative;
-            padding: 5px;
-            font-weight: 400;
-            &:first-of-type {
-              padding-right: 10px;
-            }
-            &:last-of-type {
-              padding-left: 10px;
+            span {
+              transition: .3s ease-in-out;
+              &:first-of-type {
+                color: #67D2E1;
+              }
+
+              &:last-of-type {
+                padding-left: 10px;
+                color: #ffffff;
+              }
             }
           }
         }
       }
+    }
+    footer {
+      display: flex;
+      width: 100%;
+      height: 70px;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
     }
   }
 </style>

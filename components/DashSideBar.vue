@@ -11,11 +11,34 @@
   >
     <div class="px-6">
       <div class="block py-6">
-        <span class="has-text-white">NIFTIQET</span>
+        <nuxt-link to="/" class="has-text-white">
+          NIFTIQET
+        </nuxt-link>
       </div>
       <b-menu class="is-custom-mobile">
         <b-menu-list label="MarketPlace">
           <b-menu-item tag="nuxt-link" to="/ticketing" icon="view-dashboard-outline" label="Home" />
+          <b-menu-item tag="nuxt-link" to="/ticketing" icon="storefront-outline" label="Burn" />
+        </b-menu-list>
+        <b-menu-list class="pt-3" label="Manage">
+          <b-menu-item
+            v-if="isConnected"
+            tag="a"
+            href="#"
+            icon="logout"
+            label="Logout"
+            @click.prevent="disconnectWallet"
+          />
+          <b-menu-item
+            v-else
+            tag="a"
+            href="#"
+            icon="login"
+            label="Login"
+            @click.prevent="
+              store.wallet?.connect({ requestSignIn: true })
+            "
+          />
         </b-menu-list>
       </b-menu>
     </div>
@@ -27,14 +50,32 @@
 </template>
 
 <script>
+import { mapState } from 'pinia'
+import { useStore } from '../store'
+
 export default {
   name: 'DashSideBar',
+  setup () {
+    const store = useStore()
+
+    return { store }
+  },
   data () {
     return {
       expandOnHover: false,
       expandWithDelay: false,
       mobile: 'hide',
       reduce: false
+    }
+  },
+  computed: {
+    // same as above but registers it as this.myOwnName
+    ...mapState(useStore, ['wallet', 'details', 'isConnected', 'loading', 'creator'])
+  },
+  methods: {
+    async disconnectWallet () {
+      await this.store?.wallet?.disconnect()
+      this.store?.setupWallet()
     }
   }
 }
@@ -59,10 +100,24 @@ export default {
       // min-height: 100vh;
     }
   }
+  .b-sidebar {
+    .sidebar-content {
+      .menu-list {
+        li {
+          padding-top: 10px;
+        }
+      }
+    }
+  }
 
   @media screen and (max-width: 1023px) {
     .b-sidebar {
       .sidebar-content {
+        .menu-list {
+          li {
+            padding: 10px 0;
+          }
+        }
         &.is-mini-mobile {
 
           &:not(.is-mini-expand),
