@@ -155,11 +155,18 @@ export default {
       this.dropFiles.splice(index, 1)
     },
     compressImage (e) {
-      console.log('emage is', e)
-
-      console.log('compressor', Compressor)
+      return Compressor
     },
     mintTicket () {
+      if (!this.mintStore) {
+        this.$buefy.toast.open({
+          duration: 5000,
+          message: 'You need a Store tot mint tickets',
+          position: 'is-top-right',
+          type: 'is-danger'
+        })
+        return
+      }
       if (!this.wallet || !this.wallet?.minter) { return }
       /* if (!coverImage) { return } */
 
