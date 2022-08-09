@@ -1,12 +1,14 @@
 <template>
   <div class="dashboard--layout">
     <DashSideBar />
-    <header>
-      <DashNav />
-      <Nuxt />
-      <footer>
-        &copy;{{ year }} NIFTIQET
-      </footer>
+    <header class="page--header">
+      <section class="page--container">
+        <DashNav />
+        <Nuxt class="dash--page" />
+        <footer class="page--footer">
+          &copy;{{ year }} NIFTIQET
+        </footer>
+      </section>
     </header>
   </div>
 </template>
@@ -39,6 +41,27 @@ export default {
   .dashboard--layout {
     background: url("~/assets/img/dash-bg.png"), #031f23 no-repeat fixed;
     background-size: cover;
+    .dash--page {
+      padding: 40px;
+      overflow-y: auto;
+    }
+    .page--container {
+      position: relative;
+      z-index: 5;
+    }
+    .page--header {
+      position: relative;
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(42, 41, 41, 0.03);
+        backdrop-filter: blur(2px);
+        height: 100%;
+        width: 100%;
+      }
+    }
     .navbar {
       .button.is-primary {
         background: #031C1E;
@@ -115,13 +138,15 @@ export default {
         }
       }
     }
-    footer {
-      display: flex;
-      width: 100%;
-      height: 70px;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
+    .page--header {
+      .page--footer {
+        display: flex;
+        width: 100%;
+        height: 70px;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+      }
     }
   }
 </style>

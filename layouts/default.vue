@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <header>
+    <header class="page--header">
       <NavBar />
       <Nuxt />
     </header>
@@ -23,7 +23,7 @@ export default {
 }
 </script>
 <style lang="scss">
-header {
+.page--header {
   min-height: 100vh;
   background: url('~/assets/img/bg.png') no-repeat fixed;
   background-size: cover;

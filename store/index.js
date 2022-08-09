@@ -15,17 +15,20 @@ export const useStore = defineStore('main', {
   }),
   actions: {
     setupWallet () {
-      this.loading = true
-      this.$nuxt.$walletService
-        .walletProvider({ apiKey: this.$nuxt.$config.apiKey })
-        .then(({ details, wallet, isConnected }) => {
-          this.wallet = wallet
-          this.isConnected = isConnected
-          if (isConnected) {
-            this.details = details
-          }
-          this.loading = false
-        })
+      console.log('accountId', this.details.accountId)
+      if (!this.details.accountId) {
+        this.loading = true
+        this.$nuxt.$walletService
+          .walletProvider({ apiKey: this.$nuxt.$config.apiKey })
+          .then(({ details, wallet, isConnected }) => {
+            this.wallet = wallet
+            this.isConnected = isConnected
+            if (isConnected) {
+              this.details = details
+            }
+            this.loading = false
+          })
+      }
     },
     async logout ({ commit, dispatch }) {
       await this.wallet?.disconnect()

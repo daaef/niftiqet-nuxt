@@ -28,7 +28,7 @@
                     store.wallet?.connect({ requestSignIn: true })
                   "
                 >
-                  <span class="icon">
+                  <span class="icon-wallet">
                     <IconsWallet />
                   </span>
                   <span class="has-text-weight-semibold">{{
