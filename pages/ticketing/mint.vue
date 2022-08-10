@@ -8,7 +8,7 @@
         <option value="" disabled>
           Select a store
         </option>
-        <option v-for="(aStore, i) in store" :key="i" :value="aStore.id">
+        <option v-for="(aStore, i) in store.stores" :key="i" :value="aStore.id">
           {{ aStore.name }}
         </option>
       </b-select>
@@ -23,8 +23,6 @@
       <b-field>
         <b-upload
           v-model="dropFiles"
-          :disabled="dropFiles?.length > 0"
-          multiple
           drag-drop
           @input="compressImage"
         >
@@ -105,49 +103,34 @@
 
 <script>
 import { mapWritableState } from 'pinia'
-import Compressor from 'compressorjs'
+// import Compressor from 'compressorjs'
+import { MetadataField } from 'mintbase'
 import { useStore } from '@/store'
-import fetchMinterStores from '~/apollo/queries/minterStores.gql'
 
 export default {
   name: 'MintTicket',
   layout: 'dashboard',
+  setup () {
+    const store = useStore()
+
+    return { store }
+  },
   data () {
     return {
-      dropFiles: [],
+      dropFiles: {},
+      dropFile: {},
       locale: 'en-US',
       mintStore: '',
+      minter: 'aef.testnet',
       ticketName: '',
       amount: '',
-      eventTime: '',
+      eventTime: new Date(),
       venue: '',
       description: '',
       isMinting: false
     }
   },
-  apollo: {
-    store: {
-      query: fetchMinterStores,
-      prefetch: true,
-      variables () {
-        return {
-          minter: 'aef.testnet'
-        }
-      }
-    }
-  },
   computed: {
-    sampleFormat () {
-      const dtf = new Intl.DateTimeFormat(this.locale, {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: undefined
-      })
-      return dtf.format(new Date())
-    },
     ...mapWritableState(useStore, ['wallet', 'details', 'isConnected', 'loading', 'creator'])
   },
   methods: {
@@ -155,9 +138,10 @@ export default {
       this.dropFiles.splice(index, 1)
     },
     compressImage (e) {
-      return Compressor
+      this.dropFile = e
+      console.log('e is', e)
     },
-    mintTicket () {
+    async mintTicket () {
       if (!this.mintStore) {
         this.$buefy.toast.open({
           duration: 5000,
@@ -167,10 +151,41 @@ export default {
         })
         return
       }
-      if (!this.wallet || !this.wallet?.minter) { return }
-      /* if (!coverImage) { return } */
+      if (!this.wallet || !this.wallet?.minter) {
+        return
+      }
+      if (!this.dropFile) {
+        return
+      }
 
       this.isMinting = true
+      const { error: fileError } =
+        await this.wallet.minter.uploadField(MetadataField.Media, this.dropFile)
+      if (fileError) {
+        return
+      }
+      /* const { error: extraError } = await this.wallet.minter.setField(MetadataField.Extra,
+        {
+          venue: this.venue,
+          time: this.eventTime
+        })
+      if (extraError) {
+        return
+      } */
+      this.wallet.minter.setMetadata({
+        title: this.ticketName,
+        description: this.description
+        /* extra: {
+          venue: this.venue,
+          time: this.eventTime
+        } */
+      })
+      try {
+        await this.wallet.mint(+this.amount, this.mintStore, undefined, undefined, undefined)
+      } catch (e) {
+        return e
+      }
+      this.isMinting = false
     }
   }
 }

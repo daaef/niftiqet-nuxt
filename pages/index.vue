@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import fetchMinterStores from '~/apollo/queries/minterStores.gql'
+// import fetchMinterStores from '~/apollo/queries/queries.js'
 
 export default {
-  name: 'IndexPage',
-  apollo: {
+  name: 'IndexPage'
+  /* apollo: {
     store: {
       query: fetchMinterStores,
       prefetch: true,
@@ -40,7 +40,7 @@ export default {
         }
       }
     }
-  }
+  } */
 }
 </script>
 <style lang="scss">

@@ -30,8 +30,24 @@
       <h3 class="has-text-white has-text-weight-semibold mb-3">
         Niftiqet Store Tickets
       </h3>
-      <div v-if="store?.length" class="ticket--grid">
-        <DashTicket v-for="(token, i) in store[0].tokens" :key="i" :token="token" />
+      <div v-if="store?.niftyStore?.length" class="ticket--grid mb-5">
+        <DashTicket v-for="(token, i) in store?.niftyStore[0].tokens" :key="i" :token="token" />
+      </div>
+      <h3 class="has-text-white has-text-weight-semibold mb-3">
+        My Store Tickets
+      </h3>
+      <b-field class="mt-5" label="Select Store" label-position="inside">
+        <b-select v-model="selectedStore" class="custom" placeholder="Select a store" @input="setSTore">
+          <option value="" disabled>
+            Select a store
+          </option>
+          <option v-for="(aStore, i) in store.stores" :key="i" :value="aStore.id">
+            {{ aStore.name }}
+          </option>
+        </b-select>
+      </b-field>
+      <div v-if="store?.myStore?.length" class="ticket--grid">
+        <DashTicket v-for="(token, i) in store?.myStore[0].tokens" :key="i" :token="token" />
       </div>
     </div>
     <b-modal
@@ -55,38 +71,31 @@
 import { mapWritableState } from 'pinia'
 import { useStore } from '@/store'
 import DashTicket from '@/components/Ticket'
-// import fetchMinterStores from '~/apollo/queries/minterStores.gql'
-import fetchStore from '~/apollo/queries/fetchStore.gql'
 
 export default {
   name: 'TicketingPage',
   components: { DashTicket },
   layout: 'dashboard',
+  setup () {
+    const store = useStore()
+
+    return { store }
+  },
   data () {
     return {
       createStore: false,
-      formProps: {
-        email: 'evan@you.com',
-        password: 'testing'
-      }
-    }
-  },
-  apollo: {
-    store: {
-      query: fetchStore,
-      prefetch: true,
-      variables () {
-        return {
-          storeId: 'niftiqet.mintspace2.testnet',
-          limit: 10,
-          offset: 0
-        }
-      }
+      selectedStore: ''
     }
   },
   computed: {
     // same as above but registers it as this.myOwnName
     ...mapWritableState(useStore, ['wallet', 'details', 'isConnected', 'loading', 'creator'])
+  },
+  methods: {
+    async setSTore (e) {
+      console.log('event is', e)
+      await this.store.fetchUserStore(e)
+    }
   }
 }
 </script>

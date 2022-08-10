@@ -54,6 +54,7 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     '@nuxtjs/composition-api/module',
+    'nuxt-graphql-request',
     [
       '@pinia/nuxt',
       {
@@ -72,58 +73,47 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/buefy
     'nuxt-buefy',
-    '@nuxtjs/apollo',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa'
   ],
-  apollo: {
-    // Sets up the apollo client endpoints
-    clientConfigs: {
-      // recommended: use a file to declare the client configuration (see below for example)
-      default: '~/plugins/apollo-config.js'
+  graphql: {
+    /**
+     * An Object of your GraphQL clients
+     */
+    clients: {
+      default: {
+        /**
+         * The client endpoint url
+         */
+        endpoint: process.env.PUBLIC_MINTBASEJS_NETWORK === 'testnet'
+          ? process.env.GRAPH_TESTNET_HTTPS_URI
+          : process.env.GRAPH_MAINNET_HTTPS_URI,
+        /**
+         * Per-client options overrides
+         * See: https://github.com/prisma-labs/graphql-request#passing-more-options-to-fetch
+         */
+        options: {}
+      }
+      // ...your other clients
     },
 
     /**
-     * default 'apollo' definition
+     * Options
+     * See: https://github.com/prisma-labs/graphql-request#passing-more-options-to-fetch
      */
-    defaultOptions: {
-      // See 'apollo' definition
-      // For example: default query options
-      $query: {
-        loadingKey: 'loading',
-        fetchPolicy: 'cache-and-network'
-      }
-    },
+    options: {},
 
-    // Sets the authentication type for any authorized request.
-    authenticationType: 'Bearer',
+    /**
+     * Optional
+     * default: true (this includes cross-fetch/polyfill before creating the graphql client)
+     */
+    useFetchPolyfill: true,
 
-    // Token name for the cookie which will be set in case of authentication
-    tokenName: 'nift-token',
-
-    // [deprecated] Enable the graphql-tag/loader to parse *.gql/*.graphql files
-    includeNodeModules: true,
-
-    // Cookie parameters used to store authentication token
-    cookieAttributes: {
-      /**
-       * Define when the cookie will be removed. Value can be a Number
-       * which will be interpreted as days from time of creation or a
-       * Date instance. If omitted, the cookie becomes a session cookie.
-       */
-      expires: 7,
-
-      /**
-       * Define the path where the cookie is available. Defaults to '/'
-       */
-      path: '/',
-
-      /**
-       * A Boolean indicating if the cookie transmission requires a
-       * secure protocol (https). Defaults to false.
-       */
-      secure: false
-    }
+    /**
+     * Optional
+     * default: false (this includes graphql-tag for node_modules folder)
+     */
+    includeNodeModules: true
   },
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

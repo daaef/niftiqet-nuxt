@@ -34,6 +34,8 @@ export default {
   },
   async mounted () {
     await this.store.setupWallet()
+    await this.store.fetchNiftyStore()
+    await this.store.fetchMinterStores()
   }
 }
 </script>

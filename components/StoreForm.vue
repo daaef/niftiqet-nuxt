@@ -47,6 +47,14 @@ export default {
   },
   methods: {
     deployStore () {
+      if (!this.symbol || !this.storeId) {
+        this.$buefy.toast.open({
+          duration: 5000,
+          message: 'Kindly fill all fields',
+          type: 'is-danger'
+        })
+        return
+      }
       this.wallet?.deployStore(this.storeId, this.symbol)
     }
   }
