@@ -52,11 +52,25 @@
         <b-button type="is-danger" :disabled="details?.accountId !== activeToken?.ownerId">
           Burn
         </b-button>
-        <b-button type="is-dark" :disabled="details?.accountId !== activeToken?.ownerId">
+        <b-button type="is-dark" :disabled="details?.accountId !== activeToken?.ownerId" @click.prevent="sellTIcket = true">
           Sell
         </b-button>
       </div>
     </div>
+    <b-modal
+      v-model="sellTIcket"
+      has-modal-card
+      trap-focus
+      :destroy-on-hide="false"
+      aria-role="dialog"
+      aria-label="Example Modal"
+      close-button-aria-label="Close"
+      aria-modal
+    >
+      <template #default="props">
+        <SellForm :store-id="activeToken?.thing?.storeId" :token-id="strip(activeToken?.id, '', ':')" @close="props.close" />
+      </template>
+    </b-modal>
   </section>
 </template>
 
@@ -76,7 +90,7 @@ export default {
   },
   data () {
     return {
-      createStore: false,
+      sellTIcket: false,
       selectedStore: '',
       activeToken: null
     }
@@ -117,6 +131,9 @@ export default {
     },
     setActiveToken (_, token) {
       this.activeToken = token
+    },
+    sellToken () {
+
     }
   }
 }

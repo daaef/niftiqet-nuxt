@@ -61,7 +61,7 @@
       aria-modal
     >
       <template #default="props">
-        <StoreForm v-bind="formProps" @close="props.close" />
+        <StoreForm @close="props.close" />
       </template>
     </b-modal>
   </section>
