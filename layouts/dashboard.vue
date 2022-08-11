@@ -46,6 +46,7 @@ export default {
     .dash--page {
       padding: 40px;
       overflow-y: auto;
+      height: calc(100vh - 5.4rem - 70px);
     }
     .page--container {
       position: relative;

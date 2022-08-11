@@ -31,7 +31,7 @@
         Niftiqet Store Tickets
       </h3>
       <div v-if="store?.niftyStore?.length" class="ticket--grid mb-5">
-        <DashTicket v-for="(token, i) in store?.niftyStore[0].tokens" :key="i" :token="token" />
+        <DashTicket v-for="(token, i) in store?.niftyStore[0].tokens" :id="token?.id" :key="i" :token="token?.thing?.metadata" @click="setThing($event, token)" />
       </div>
       <h3 class="has-text-white has-text-weight-semibold mb-3">
         My Store Tickets
@@ -47,7 +47,7 @@
         </b-select>
       </b-field>
       <div v-if="store?.myStore?.length" class="ticket--grid">
-        <DashTicket v-for="(token, i) in store?.myStore[0].tokens" :key="i" :token="token" />
+        <DashTicket v-for="(token, i) in store?.myStore[0].tokens" :id="token?.id" :key="i" :token="token?.thing?.metadata" @click="setThing($event, token)" />
       </div>
     </div>
     <b-modal
@@ -89,19 +89,22 @@ export default {
   },
   computed: {
     // same as above but registers it as this.myOwnName
-    ...mapWritableState(useStore, ['wallet', 'details', 'isConnected', 'loading', 'creator'])
+    ...mapWritableState(useStore, ['wallet', 'details', 'isConnected', 'loading', 'creator', 'activeThing'])
   },
   methods: {
     async setSTore (e) {
       console.log('event is', e)
       await this.store.fetchUserStore(e)
+    },
+    setThing (_, thing) {
+      this.activeThing = thing
+      this.$router.push('/ticketing/thing')
     }
   }
 }
 </script>
 <style lang="scss">
 .ticketing {
-  height: calc(100vh - 5.4rem - 70px);
   .ticketing--header {
     height: 250px;
     display: flex;

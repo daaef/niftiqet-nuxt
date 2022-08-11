@@ -51,6 +51,11 @@ export const fetchStore = gql`
             id
             thingId
             ownerId
+            royaltyPercent
+            splits {
+              id
+              percent
+            }
             thing {
               storeId
               metadata {

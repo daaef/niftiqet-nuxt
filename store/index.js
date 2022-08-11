@@ -15,7 +15,8 @@ export const useStore = defineStore('main', {
     creator: true,
     stores: [],
     niftyStore: {},
-    myStore: {}
+    myStore: {},
+    activeThing: {}
   }),
   actions: {
     setupWallet () {

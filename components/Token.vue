@@ -1,17 +1,17 @@
 <template>
-  <nuxt-link :to="`/ticketing/${id}`" class="ticket">
-    <img :src="token?.media" alt="">
-    <h3>{{ token?.title }}</h3>
+  <a href="#" class="ticket" @click="$emit('click')">
+    <img :src="token?.thing?.metadata.media" alt="">
+    <h3>{{ token?.thing?.metadata.title }}</h3>
     <p>
       <b-icon icon="clock-time-four-outline" />
-      <span class="text--content"> {{ token?.extra ? token?.extra : 'No time Set' }} </span>
+      <span class="text--content"> {{ token?.thing?.metadata.extra ? token?.thing?.metadata.extra : 'No time Set' }} </span>
     </p>
-  </nuxt-link>
+  </a>
 </template>
 
 <script>
 export default {
-  name: 'DashTicket',
+  name: 'DashToken',
   props: {
     token: { type: Object, default: null, required: false },
     id: { type: String, default: null, required: false }
