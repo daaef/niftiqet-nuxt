@@ -44,7 +44,9 @@ export default {
   plugins: [{
     src: '~/plugins/services.plugin.js'
   }],
-
+  generate: {
+    fallback: true
+  },
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
