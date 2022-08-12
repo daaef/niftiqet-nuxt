@@ -58,7 +58,7 @@
           :disabled="
             details?.accountId === activeToken?.ownerId ||
               activeToken?.list?.ownerId === details?.accountId ||
-              activeToken?.burnedAt"
+              activeToken?.burnedAt || !activeToken?.list"
           @click="buyTicket($event, activeToken?.id, activeToken?.list?.price)"
         >
           Buy
